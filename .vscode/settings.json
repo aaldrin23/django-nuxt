@@ -1,0 +1,14 @@
+{
+	"editor.formatOnSave": true,
+	"vetur.format.defaultFormatter": {
+		"html": "prettier",
+		"css": "prettier",
+		"postcss": "prettier",
+		"scss": "prettier",
+		"less": "prettier",
+		"js": "prettier",
+		"ts": "prettier",
+		"stylus": "stylus-supremacy"
+	},
+	"python.pythonPath": "/home/aaldrin/.local/share/virtualenvs/nuxt-express-sR-3Pphg/bin/python"
+}
