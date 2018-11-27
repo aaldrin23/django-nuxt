@@ -14,6 +14,15 @@ api.interceptors.request.use(config => {
 	return config;
 });
 
+axios.interceptors.response.use(
+	response => {
+		return response;
+	},
+	error => {
+		return Promise.reject(error.response);
+	}
+);
+
 Vue.use({
 	install() {
 		Object.assign(Vue.prototype, {

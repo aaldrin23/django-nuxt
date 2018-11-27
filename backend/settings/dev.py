@@ -44,10 +44,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'backend.api.middleware.CORSMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -55,12 +54,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -74,7 +70,6 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Add dist to
         'DIRS': ['dist'],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -155,8 +150,9 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware',)
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
+    'localhost:3000',
 )
 CORS_ORIGIN_REGEX_WHITELIST = (
-    'localhost:3000',
+    r'^(http?://)?(\w+\.)?localhost:3000$',
+    r'^(https?://)?(\w+\.)?localhost:3000$',
 )

@@ -1,31 +1,43 @@
-from rest_framework import viewsets, generics, permissions
+from rest_framework import viewsets, generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth.models import User
 from django.contrib.auth import login as loginUser, logout as logoutUser
 from rest_framework.response import Response
 from .serializers import UserSerializer
 from django.http import HttpResponse
+from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def login(request):
-    user = User.objects.get(pk=1)
-    loginUser(request, user)
-    return HttpResponse(UserSerializer(user).data)
+    res = Response()
 
+    if not User.objects.filter(username=request.POST.get('username')).exists():
+        res.status_code = status.HTTP_200_OK
+        res.data = {
+            "status": 1,
+            "message": "User not exist!"
+        }
+        return res
 
-@api_view(['GET'])
-@permission_classes((permissions.AllowAny,))
-def logout(request):
-    logoutUser(request)
-    return Response(0)
+    user = authenticate(username=request.POST.get('username'),
+                        password=request.POST.get('password'))
 
+    if user is None:
+        res.status_code = status.HTTP_200_OK
+        res.data = {
+            "status": 1,
+            "message": "Password Incorrect!"
+        }
+        return res
 
-@api_view(['GET'])
-def current_user(request):
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
+    res.data = {
+        "status": 0,
+        "data": UserSerializer(user).data
+    }
+    return res
 
 
 class UserViewSet(viewsets.ModelViewSet):

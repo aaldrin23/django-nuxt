@@ -31,19 +31,22 @@ export default {
 		return {
 			username: '',
 			password: '',
-			isLoading: false
+			isLoading: false,
+			token: '1cf78b1d413670bb2915f1124d49c165ccebe538'
 		};
 	},
+	mounted() {},
 	methods: {
+		sample() {},
 		login() {
 			let vm = this;
 			vm.$axios
-				.post('/auth/token/login/', {
+				.post('/auth/login/', {
 					username: vm.username,
 					password: vm.password
 				})
 				.then(res => {
-					console.log('data');
+					vm.token = res.data.auth_token;
 				});
 		}
 	},
